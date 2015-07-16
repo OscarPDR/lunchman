@@ -55,3 +55,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+
+###     Django settings
+####################################################################################################
+
+lunchtime_organiser/lunchtime_organiser/settings/*.py

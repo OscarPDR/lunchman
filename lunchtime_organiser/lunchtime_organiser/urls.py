@@ -1,21 +1,19 @@
-"""lunchtime_organiser URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.8/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Add an import:  from blog import urls as blog_urls
-    2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
-"""
 from django.conf.urls import include, url
 from django.contrib import admin
 
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^$', 'website.views.home', name='home'),
+
+    # url(r'^$', 'django.contrib.auth.views.login', {'template_name': 'index.html', 'authentication_form': LoginForm}, name='home'),
+    url(r'^logout/$', 'website.views.logout_view', name='logout_view'),
+
+    url(r'^ordinary_attendance/$', 'website.views.ordinary_attendance', name='ordinary_attendance'),
+    url(r'^delay_attendance/$', 'website.views.delay_attendance', name='delay_attendance'),
+    url(r'^cancel_attendance/$', 'website.views.cancel_attendance', name='cancel_attendance'),
+
+    url(r'^new_meal_ticket/$', 'website.views.new_meal_ticket', name='new_meal_ticket'),
 ]

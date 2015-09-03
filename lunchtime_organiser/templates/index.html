@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block main_content %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <p class="summary centered">
+                <span class="ordinary">{{ ordinary_attendance|length }}</span>
+                <span class="delayed">{{ delayed_attendance|length }}</span>
+                <span class="non-confirmed">{{ non_confirmed_attendance|length }}</span>
+            </p>
+
+            <table id="attendance-table" class="table table-condensed table-striped">
+                {% for ordinary_attendee in ordinary_attendance %}
+                    <tr class="success">
+                        <td>
+                            {{ ordinary_attendee.person.first_name }} {{ ordinary_attendee.person.last_name }}
+
+                            {% if ordinary_attendee.person == user %}
+                                <div class="pull-right">
+                                    <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
+                                        <i class="fa fa-clock-o"></i>
+                                    </a>
+
+                                    &nbsp;
+
+                                    <a class="btn btn-danger btn-xs" href="{% url 'cancel_attendance' %}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                {% for delayed_attendee in delayed_attendance %}
+                    <tr class="warning">
+                        <td>
+                            {{ delayed_attendee.person.first_name }} {{ delayed_attendee.person.last_name }}
+
+                            {% if delayed_attendee.person == user %}
+                                <div class="pull-right">
+                                    <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </a>
+
+                                    &nbsp;
+
+                                    <a class="btn btn-danger btn-xs" href="{% url 'cancel_attendance' %}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                {% for non_confirmed_attendee in non_confirmed_attendance %}
+                    <tr class="danger">
+                        <td>
+                            {{ non_confirmed_attendee.first_name }} {{ non_confirmed_attendee.last_name }}
+
+                            {% if non_confirmed_attendee == user %}
+                                <div class="pull-right">
+                                    <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </a>
+
+                                    &nbsp;
+
+                                    <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
+                                        <i class="fa fa-clock-o"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="col-md-6 col-md-offset-2">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% include 'menu.html' with weekday='monday' menu=monday_menu %}
+                {% include 'menu.html' with weekday='tuesday' menu=tuesday_menu %}
+                {% include 'menu.html' with weekday='wednesday' menu=wednesday_menu %}
+                {% include 'menu.html' with weekday='thursday' menu=thursday_menu %}
+                {% include 'menu.html' with weekday='friday' menu=friday_menu %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

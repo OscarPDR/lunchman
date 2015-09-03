@@ -1,0 +1,46 @@
+
+<div class="panel {% if menu.date == today %}panel-primary{% else %}panel-default{% endif %}">
+    <div class="panel-heading" role="tab" id="headingOne">
+        <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ weekday }}" aria-expanded="true" aria-controls="{{ weekday }}">
+                {{ weekday|title }}
+            </a>
+            <small class="pull-right">
+                {{ menu.date|date:"d M" }}
+            </small>
+        </h4>
+    </div>
+
+    <div id="{{ weekday }}" class="panel-collapse collapse {% if menu.date == today %}in{% endif %}" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+            <dl>
+                <dt>Primeros platos</dt>
+                <dd>
+                    <ul>
+                        {% for first_course in menu.firstcourse_set.all %}
+                            <li>{{ first_course.meal }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+
+                <dt>Segundos platos</dt>
+                <dd>
+                    <ul>
+                        {% for second_course in menu.secondcourse_set.all %}
+                            <li>{{ second_course.meal }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+
+                <dt>Postres</dt>
+                <dd>
+                    <ul>
+                        {% for dessert in menu.dessert_set.all %}
+                            <li>{{ dessert.meal }}</li>
+                        {% endfor %}
+                    </ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>

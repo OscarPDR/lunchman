@@ -1,0 +1,51 @@
+
+body {
+    padding-top: 75px;
+    padding-bottom: 20px;
+}
+
+.logged_user {
+      height: 50px;
+      padding: 15px 15px;
+      font-size: 18px;
+      line-height: 20px;
+      color: #0084ff;
+}
+
+.logged_username {
+    color: #4da9ff;
+}
+
+.centered {
+    text-align: center;
+}
+
+.summary span {
+    margin: 0 1em;
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow:
+        1px 0px 1px #ccc, 0px 1px 1px #eee,
+        2px 1px 1px #ccc, 1px 2px 1px #eee,
+        3px 2px 1px #ccc, 2px 3px 1px #eee,
+        4px 3px 1px #ccc, 3px 4px 1px #eee;
+}
+
+.summary .ordinary {
+    color: green;
+}
+
+.summary .delayed {
+    color: orange;
+}
+
+.summary .non-confirmed {
+    color: red;
+}
+
+#attendance-table tr td {
+    padding-left: 1em;
+    font-size: 18px;
+    font-weight: 300;
+    vertical-align: middle;
+}

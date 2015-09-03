@@ -61,3 +61,17 @@ target/
 ####################################################################################################
 
 lunchtime_organiser/lunchtime_organiser/settings/*.py
+
+
+###     celery
+####################################################################################################
+
+lunchtime_organiser/celerybeat-schedule
+
+
+###     local DBs & statics
+####################################################################################################
+
+lunchtime_organiser/test.sqlite3
+lunchtime_organiser/collected_static
+lunchtime_organiser/components

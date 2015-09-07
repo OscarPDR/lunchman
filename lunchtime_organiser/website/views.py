@@ -107,7 +107,7 @@ def logout_view(request):
 def ordinary_attendance(request):
     attended_meal, created = AttendedMeal.objects.get_or_create(
         person=request.user,
-        date=date.today(),
+        date=today,
     )
 
     attended_meal.preferred_time = u'ordinary'
@@ -123,7 +123,7 @@ def ordinary_attendance(request):
 def delay_attendance(request):
     delayed_meal, created = AttendedMeal.objects.get_or_create(
         person=request.user,
-        date=date.today(),
+        date=today,
     )
 
     delayed_meal.preferred_time = u'delayed'
@@ -139,7 +139,7 @@ def delay_attendance(request):
 def cancel_attendance(request):
     AttendedMeal.objects.get(
         person=request.user,
-        date=date.today(),
+        date=today,
     ).delete()
 
     return redirect('home')
@@ -152,7 +152,7 @@ def cancel_attendance(request):
 def new_meal_ticket(request):
     MealTicket(
         owner=request.user,
-        purchased=date.today(),
+        purchased=today,
 
     ).save()
 

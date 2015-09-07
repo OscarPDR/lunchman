@@ -72,10 +72,6 @@ USE_I18N = False
 
 USE_L10N = False
 
-LOCALE_PATHS = (
-    PROJECT_DIR.child('locale'),
-)
-
 USE_TZ = True
 
 STATIC_URL = '/static/'

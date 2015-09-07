@@ -24,9 +24,11 @@ def send_buy_ticket_mail():
         if lesser_meal_ticket.remaining_meals < 2:
             person = User.objects.get(pk=person_id)
 
+            msg = "Hemos detectado que te quedan pocos servicios en tu tarjeta de comidas del Colegio Mayor. Te recomendamos adquirir una nueva cuanto antes"
+
             send_mail(
-                'Out of meals',     # Subject
-                'You are nearly out of tickets',     # Message
+                'Comprar ticket Colegio Mayor',     # Subject
+                msg,     # Message
                 getattr(settings, 'SENDER_ADDRESS', ''),     # From
                 [person.email],     # Recipient list
             )

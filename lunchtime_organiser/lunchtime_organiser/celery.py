@@ -7,9 +7,9 @@ from celery import Celery
 
 # set the default Django settings module for the 'celery' program.
 try:
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lunchtime_organiser.settings.local')
-except:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lunchtime_organiser.settings.prod')
+except:
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lunchtime_organiser.settings.local')
 
 from django.conf import settings
 

@@ -1,5 +1,6 @@
 
 from .base import *
+from celery.schedules import crontab
 
 
 DATABASES = {

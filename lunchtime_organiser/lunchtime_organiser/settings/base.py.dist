@@ -1,6 +1,4 @@
 
-from celery.schedules import crontab
-from django.conf.global_settings import STATICFILES_FINDERS
 from unipath import Path
 
 
@@ -24,8 +22,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'djangobower',
 
     'website',
 )
@@ -89,16 +85,6 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = PROJECT_DIR.child('collected_static')
-
-STATICFILES_FINDERS = STATICFILES_FINDERS + (
-    'djangobower.finders.BowerFinder',
-)
-
-BOWER_COMPONENTS_ROOT = PROJECT_DIR.child('components')
-
-BOWER_INSTALLED_APPS = (
-    'bootstrap',
-)
 
 TEMPLATES = [
     {

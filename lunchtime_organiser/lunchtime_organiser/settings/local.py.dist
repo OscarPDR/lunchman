@@ -1,6 +1,5 @@
 
 from .base import *
-from celery.schedules import crontab
 
 
 DATABASES = {
@@ -9,21 +8,6 @@ DATABASES = {
         'NAME': 'test.sqlite3',
     }
 }
-
-CELERYBEAT_SCHEDULE = {
-    'send_buy_ticket_mail': {
-        'task': 'tasks.send_buy_ticket_mail',
-        'schedule': crontab(hour=12, minute=30),
-    },
-    'substract_remaining_meals': {
-        'task': 'tasks.substract_remaining_meals',
-        'schedule': crontab(hour=14, minute=00),
-    },
-}
-
-CELERY_TIMEZONE = 'Europe/Madrid'
-
-BROKER_URL = ''
 
 EMAIL_HOST = ''
 EMAIL_PORT = 0

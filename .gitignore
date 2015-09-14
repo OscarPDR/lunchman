@@ -67,6 +67,7 @@ lunchtime_organiser/lunchtime_organiser/settings/*.py
 ####################################################################################################
 
 lunchtime_organiser/celerybeat-schedule
+lunchtime_organiser/celerybeat.pid
 
 
 ###     local DBs & statics

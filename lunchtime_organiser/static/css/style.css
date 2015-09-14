@@ -1,7 +1,11 @@
 
 body {
-    padding-top: 75px;
+    padding-top: 100px;
     padding-bottom: 20px;
+}
+
+#user-div, #dropdown-div {
+    display: inline-block;
 }
 
 .logged_user {
@@ -48,4 +52,16 @@ body {
     font-size: 18px;
     font-weight: 300;
     vertical-align: middle;
+}
+
+#green-circle {
+    color: green;
+}
+
+#yellow-circle {
+    color: gold;
+}
+
+#red-circle {
+    color: red;
 }

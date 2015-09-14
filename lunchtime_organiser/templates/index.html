@@ -18,7 +18,7 @@
                         <td>
                             {{ ordinary_attendee.person.first_name }} {{ ordinary_attendee.person.last_name }}
 
-                            {% if ordinary_attendee.person == user %}
+                            {% if ordinary_attendee.person == user and before_lunchtime %}
                                 <div class="pull-right">
                                     <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
                                         <i class="fa fa-clock-o"></i>
@@ -40,7 +40,7 @@
                         <td>
                             {{ delayed_attendee.person.first_name }} {{ delayed_attendee.person.last_name }}
 
-                            {% if delayed_attendee.person == user %}
+                            {% if delayed_attendee.person == user and before_lunchtime %}
                                 <div class="pull-right">
                                     <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
                                         <i class="fa fa-thumbs-up"></i>
@@ -62,7 +62,7 @@
                         <td>
                             {{ non_confirmed_attendee.first_name }} {{ non_confirmed_attendee.last_name }}
 
-                            {% if non_confirmed_attendee == user %}
+                            {% if non_confirmed_attendee == user and before_lunchtime %}
                                 <div class="pull-right">
                                     <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
                                         <i class="fa fa-thumbs-up"></i>
@@ -79,6 +79,13 @@
                     </tr>
                 {% endfor %}
             </table>
+
+            <br>
+            <i id="green-circle" class="fa fa-circle"></i>&emsp;Sube a comer
+            <br>
+            <i id="yellow-circle" class="fa fa-circle"></i>&emsp;Subirá más tarde
+            <br>
+            <i id="red-circle" class="fa fa-circle"></i>&emsp;No sube a comer
         </div>
 
         <div class="col-md-6 col-md-offset-2">

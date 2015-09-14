@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 
 from .forms import LoginForm
@@ -61,11 +62,7 @@ def home(request):
     else:
         form = LoginForm()
 
-    try:
-        meal_ticket = MealTicket.objects.filter(owner=user.id).order_by('purchased').first()
-
-    except ObjectDoesNotExist:
-        meal_ticket = None
+    remaining_meals = MealTicket.objects.filter(owner=user.id).aggregate(total=Sum('remaining_meals'))
 
     monday = today - datetime.timedelta(days=today.weekday())
     tuesday = monday + datetime.timedelta(days=1)
@@ -79,13 +76,14 @@ def home(request):
         'delayed_attendance': delayed_attendance,
         'non_confirmed_attendance': non_confirmed_attendance,
         'user': user,
-        'meal_ticket': meal_ticket,
+        'remaining_meals': remaining_meals['total'],
         'monday_menu': get_or_none(Menu, date=monday),
         'tuesday_menu': get_or_none(Menu, date=tuesday),
         'wednesday_menu': get_or_none(Menu, date=wednesday),
         'thursday_menu': get_or_none(Menu, date=thursday),
         'friday_menu': get_or_none(Menu, date=friday),
         'today': today,
+        'before_lunchtime': datetime.datetime.now().time() < datetime.time(13),
     }
 
     return render(request, 'index.html', return_dict)

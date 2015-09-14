@@ -41,9 +41,34 @@ class MenuAdmin(admin.ModelAdmin):
     ]
 
 
+###     MealTicketAdmin
+####################################################################################################
+
+class MealTicketAdmin(admin.ModelAdmin):
+    model = MealTicket
+
+    list_display = (
+        'owner',
+        'remaining_meals',
+        'purchased',
+    )
+
+
+###     AttendedMealAdmin
+####################################################################################################
+
+class AttendedMealAdmin(admin.ModelAdmin):
+    model = AttendedMeal
+
+    list_display = (
+        'person',
+        'date',
+    )
+
+
 ###     Register classes
 ####################################################################################################
 
-admin.site.register(MealTicket)
-admin.site.register(AttendedMeal)
+admin.site.register(MealTicket, MealTicketAdmin)
+admin.site.register(AttendedMeal, AttendedMealAdmin)
 admin.site.register(Menu, MenuAdmin)

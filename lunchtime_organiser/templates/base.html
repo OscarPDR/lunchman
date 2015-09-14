@@ -17,42 +17,60 @@
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="{% url 'home' %}">Lunchtime organiser</a>
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <i class="fa fa-cutlery">
+                            &emsp;
+                            Inicio
+                        </i>
+                    </a>
                 </div>
 
                 <div class="navbar-right">
                     {% if user.is_authenticated %}
-                        <div class="logged_user dropdown">
-                            Hello, <em class='logged_username'>{{ user.first_name }} {{ user.last_name }}</em>
+                        <div id="user-div" class="logged_user">
+                            Hola, <em class='logged_username'>{{ user.first_name }} {{ user.last_name }}</em>
+                        </div>
 
-                                <a class="dropdown-toggle" type="" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <span class="caret"></span>
-                                </a>
+                        <div id="dropdown-div" class="dropdown clearfix">
+                            <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="caret"></span>
+                            </button>
 
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li>
-                                        Stats (link)
-                                    </li>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <!--
+                                <li>
+                                    <a href="">
+                                        Estadísticas
+                                    </a>
+                                </li>
 
-                                    <li role="separator" class="divider"></li>
+                                <li role="separator" class="divider"></li>
+                                -->
 
-                                    <li>
-                                        {{ meal_ticket.remaining_meals }} meals remaining
-                                    </li>
+                                <li class="dropdown-header">
+                                    {{ remaining_meals }} comidas restantes
+                                </li>
 
-                                    <li>
-                                        <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#ticket-modal">
-                                            Compra de ticket
-                                        </button>
-                                    </li>
+                                <li>
+                                    <a href="" data-toggle="modal" data-target="#ticket-modal">
+                                        <i class="fa fa-ticket">
+                                            &nbsp;
+                                            Comprar ticket
+                                        </i>
+                                    </a>
+                                </li>
 
-                                    <li role="separator" class="divider"></li>
+                                <li role="separator" class="divider"></li>
 
-                                    <li>
-                                        logout (link / button)
-                                    </li>
-                                </ul>
-                            </div>
+                                <li>
+                                    <a href="{% url 'logout_view' %}">
+                                        <i class="fa fa-sign-out">
+                                            &nbsp;
+                                            Salir
+                                        </i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     {% else %}
                         <form class="form-inline navbar-form" role="form" method="post" action="/">

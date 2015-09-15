@@ -24,9 +24,15 @@ class Command(BaseCommand):
             if lesser_meal_ticket.remaining_meals < 2:
                 person = User.objects.get(pk=person_id)
 
+                msg = """
+                    Te quedan %(remaining)d servicios restantes en tu ticket del comedor.
+                    Adquiere un nuevo ticket y añadelo al saldo de tu cuenta en el menú
+                    desplegable de la esquina superior derecha de la aplicación de gestión.
+                """ % {'remaining': lesser_meal_ticket.remaining_meals}
+
                 send_mail(
-                    'Out of meals',     # Subject
-                    'You are nearly out of tickets',     # Message
+                    'Estás casi sin tickets de comida',     # Subject
+                    msg,     # Message
                     getattr(settings, 'SENDER_ADDRESS', ''),     # From
                     [person.email],     # Recipient list
                 )

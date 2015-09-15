@@ -73,7 +73,7 @@ def home(request):
         'thursday_menu': get_or_none(Menu, date=thursday),
         'friday_menu': get_or_none(Menu, date=friday),
         'today': today,
-        'before_lunchtime': datetime.datetime.now().time() < datetime.time(17),
+        'before_lunchtime': datetime.datetime.now().time() < datetime.time(13),
     }
 
     return render(request, 'index.html', return_dict)

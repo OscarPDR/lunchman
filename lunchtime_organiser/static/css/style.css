@@ -18,6 +18,7 @@ body {
 
 .logged_username {
     color: #4da9ff;
+    font-weight: bolder;
 }
 
 .centered {
@@ -25,7 +26,7 @@ body {
 }
 
 .summary span {
-    margin: 0 1em;
+    margin: 0 0.5em;
     font-size: 3em;
     font-weight: bold;
     text-shadow:
@@ -43,8 +44,12 @@ body {
     color: orange;
 }
 
-.summary .non-confirmed {
+.summary .non-attendance {
     color: red;
+}
+
+.summary .non-confirmed {
+    color: darkGrey;
 }
 
 #attendance-table tr td {
@@ -64,4 +69,8 @@ body {
 
 #red-circle {
     color: red;
+}
+
+#grey-circle {
+    color: darkGrey;
 }

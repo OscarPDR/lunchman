@@ -25,23 +25,6 @@ def get_or_none(model, *args, **kwargs):
 
 def home(request):
 
-    today = datetime.date.today()
-
-    user = request.user
-
-    attendee_ids = []
-
-    ordinary_attendance = AttendedMeal.objects.filter(date=today, preferred_time=u'ordinary').order_by('person__first_name')
-    delayed_attendance = AttendedMeal.objects.filter(date=today, preferred_time=u'delayed').order_by('person__first_name')
-
-    for attendance_item in ordinary_attendance:
-        attendee_ids.append(attendance_item.person.id)
-
-    for attendance_item in delayed_attendance:
-        attendee_ids.append(attendance_item.person.id)
-
-    non_confirmed_attendance = User.objects.exclude(id__in=attendee_ids).order_by('first_name')
-
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
 
@@ -54,12 +37,19 @@ def home(request):
             if (user is not None) and (user.is_active):
                 login(request, user)
 
-            else:
-                # contact admin to add user
-                pass
-
     else:
         form = LoginForm()
+
+    today = datetime.date.today()
+
+    user = request.user
+
+    ordinary_attendance = AttendedMeal.objects.filter(date=today, preferred_time=u'ordinary').order_by('person__first_name')
+    delayed_attendance = AttendedMeal.objects.filter(date=today, preferred_time=u'delayed').order_by('person__first_name')
+    non_attendance = AttendedMeal.objects.filter(date=today, preferred_time=u'non-attending').order_by('person__first_name')
+
+    confirmed_person_ids = AttendedMeal.objects.filter(date=today).values_list('person__id', flat=True)
+    non_confirmed = User.objects.all().exclude(id__in=confirmed_person_ids)
 
     remaining_meals = MealTicket.objects.filter(owner=user.id).aggregate(total=Sum('remaining_meals'))
 
@@ -73,7 +63,8 @@ def home(request):
         'form': form,
         'ordinary_attendance': ordinary_attendance,
         'delayed_attendance': delayed_attendance,
-        'non_confirmed_attendance': non_confirmed_attendance,
+        'non_attendance': non_attendance,
+        'non_confirmed_attendance': non_confirmed,
         'user': user,
         'remaining_meals': remaining_meals['total'],
         'monday_menu': get_or_none(Menu, date=monday),
@@ -82,7 +73,7 @@ def home(request):
         'thursday_menu': get_or_none(Menu, date=thursday),
         'friday_menu': get_or_none(Menu, date=friday),
         'today': today,
-        'before_lunchtime': datetime.datetime.now().time() < datetime.time(13),
+        'before_lunchtime': datetime.datetime.now().time() < datetime.time(17),
     }
 
     return render(request, 'index.html', return_dict)
@@ -134,10 +125,13 @@ def delay_attendance(request):
 
 @login_required
 def cancel_attendance(request):
-    AttendedMeal.objects.get(
+    cancelled_meal, created = AttendedMeal.objects.get_or_create(
         person=request.user,
         date=datetime.date.today(),
-    ).delete()
+    )
+
+    cancelled_meal.preferred_time = u'non-attending'
+    cancelled_meal.save()
 
     return redirect('home')
 

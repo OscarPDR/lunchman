@@ -1,11 +1,14 @@
 
+# coding: utf-8
+
 from django.db import models
 from django.contrib.auth.models import User
 
 
 TIME_CHOICES = (
-    ('ordinary', '13:00'),
-    ('delayed', 'Later, still satiated'),
+    ('ordinary', 'Subo a las 13h'),
+    ('delayed', 'Subo más tarde, esperad'),
+    ('non-attending', 'No subo'),
 )
 
 

@@ -9,7 +9,9 @@
             <p class="summary centered">
                 <span class="ordinary">{{ ordinary_attendance|length }}</span>
                 <span class="delayed">{{ delayed_attendance|length }}</span>
+                <span class="non-attendance">{{ non_attendance|length }}</span>
                 <span class="non-confirmed">{{ non_confirmed_attendance|length }}</span>
+
             </p>
 
             <table id="attendance-table" class="table table-condensed table-striped">
@@ -57,12 +59,12 @@
                     </tr>
                 {% endfor %}
 
-                {% for non_confirmed_attendee in non_confirmed_attendance %}
+                {% for non_attendee in non_attendance %}
                     <tr class="danger">
                         <td>
-                            {{ non_confirmed_attendee.first_name }} {{ non_confirmed_attendee.last_name }}
+                            {{ non_attendee.person.first_name }} {{ non_attendee.person.last_name }}
 
-                            {% if non_confirmed_attendee == user and before_lunchtime %}
+                            {% if non_attendee.person == user and before_lunchtime %}
                                 <div class="pull-right">
                                     <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
                                         <i class="fa fa-thumbs-up"></i>
@@ -78,6 +80,34 @@
                         </td>
                     </tr>
                 {% endfor %}
+
+                {% for non_confirmed_attendee in non_confirmed_attendance %}
+                    <tr class="active">
+                        <td>
+                            {{ non_confirmed_attendee.first_name }} {{ non_confirmed_attendee.last_name }}
+
+                            {% if non_confirmed_attendee == user and before_lunchtime %}
+                                <div class="pull-right">
+                                    <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </a>
+
+                                    &nbsp;
+
+                                    <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
+                                        <i class="fa fa-clock-o"></i>
+                                    </a>
+
+                                    &nbsp;
+
+                                    <a class="btn btn-danger btn-xs" href="{% url 'cancel_attendance' %}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
 
             <br>
@@ -86,6 +116,8 @@
             <i id="yellow-circle" class="fa fa-circle"></i>&emsp;Subirá más tarde
             <br>
             <i id="red-circle" class="fa fa-circle"></i>&emsp;No sube a comer
+            <br>
+            <i id="grey-circle" class="fa fa-circle"></i>&emsp;No ha confirmado
         </div>
 
         <div class="col-md-6 col-md-offset-2">

@@ -9,6 +9,9 @@ from django.template import loader
 from website.models import AttendedMeal
 
 import datetime
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -19,10 +22,13 @@ class Command(BaseCommand):
 
         today = datetime.date.today()
 
-        attendee_ids = AttendedMeal.objects.filter(date=today).values_list('person__id', flat=True)
-        non_attendance = User.objects.all().exclude(id__in=attendee_ids)
+        confirmed_person_ids = AttendedMeal.objects.filter(date=today).values_list('person__id', flat=True)
+        non_confirmed_attendance = User.objects.all().exclude(id__in=confirmed_person_ids)
 
-        for person in non_attendance:
+        for person in non_confirmed_attendance:
+            print person
+
+            logger.info('Sending email to')
 
             subject = u'%s %s, ¿Subes a comer hoy?' % (person.first_name, person.last_name)
             html_message = loader.render_to_string('attendance_remainder_email.html', {})

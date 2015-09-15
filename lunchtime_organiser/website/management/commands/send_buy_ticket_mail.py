@@ -18,12 +18,14 @@ class Command(BaseCommand):
 
         today = datetime.date.today()
 
-        attendee_ids = AttendedMeal.objects.filter(date=today).values_list('person__id', flat=True)
+        attendee_ids = AttendedMeal.objects.filter(date=today).exclude(preferred_time='non-attending').values_list('person__id', flat=True)
 
         for person_id in attendee_ids:
+
             lesser_meal_ticket = MealTicket.objects.filter(owner=person_id, remaining_meals__gt=0).order_by('remaining_meals').first()
 
             if lesser_meal_ticket.remaining_meals < 2:
+
                 person = User.objects.get(pk=person_id)
 
                 msg = """

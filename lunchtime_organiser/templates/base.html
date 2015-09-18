@@ -73,7 +73,7 @@
                             </ul>
                         </div>
                     {% else %}
-                        <form class="form-inline navbar-form" role="form" method="post" action="{% url 'home' %}">
+                        <form class="form-inline navbar-form" method="post" action="{% url 'home' %}">
                         {% csrf_token %}
                             <div class="form-group">
                                 <label class="sr-only" for="id_username">Username</label>

@@ -1,6 +1,6 @@
 
 <div class="panel {% if menu.date == today %}panel-primary{% else %}panel-default{% endif %}">
-    <div class="panel-heading" role="tab" id="headingOne">
+    <div class="panel-heading" role="tab" id="heading-{{ weekday }}">
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#{{ weekday }}" aria-expanded="true" aria-controls="{{ weekday }}">
                 {{ weekday|title }}
@@ -11,7 +11,7 @@
         </h4>
     </div>
 
-    <div id="{{ weekday }}" class="panel-collapse collapse {% if menu.date == today %}in{% endif %}" role="tabpanel" aria-labelledby="headingOne">
+    <div id="{{ weekday }}" class="panel-collapse collapse {% if menu.date == today %}in{% endif %}" role="tabpanel" aria-labelledby="heading-{{ weekday }}">
         <div class="panel-body">
             <dl>
                 <dt>Primeros platos</dt>

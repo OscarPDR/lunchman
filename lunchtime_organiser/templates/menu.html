@@ -18,7 +18,13 @@
                 <dd>
                     <ul>
                         {% for first_course in menu.firstcourse_set.all %}
-                            <li>{{ first_course.meal }}</li>
+                            <li>
+                                {{ first_course.meal }}
+                                &nbsp;
+                                <a href="http://www.google.com/images?q={{ first_course.meal }}" title="¿Qué podría ser esto?">
+                                    <i class="fa fa-question-circle"></i>
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </dd>
@@ -27,7 +33,13 @@
                 <dd>
                     <ul>
                         {% for second_course in menu.secondcourse_set.all %}
-                            <li>{{ second_course.meal }}</li>
+                            <li>
+                                {{ second_course.meal }}
+                                &nbsp;
+                                <a href="http://www.google.com/images?q={{ second_course.meal }}" title="¿Qué podría ser esto?">
+                                    <i class="fa fa-question-circle"></i>
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </dd>
@@ -36,7 +48,13 @@
                 <dd>
                     <ul>
                         {% for dessert in menu.dessert_set.all %}
-                            <li>{{ dessert.meal }}</li>
+                            <li>
+                                {{ dessert.meal }}
+                                &nbsp;
+                                <a href="http://www.google.com/images?q={{ dessert.meal }}" title="¿Qué podría ser esto?">
+                                    <i class="fa fa-question-circle"></i>
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
                 </dd>

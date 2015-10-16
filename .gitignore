@@ -60,19 +60,11 @@ target/
 ###     Django settings
 ####################################################################################################
 
-lunchtime_organiser/lunchtime_organiser/settings/*.py
-
-
-###     celery
-####################################################################################################
-
-lunchtime_organiser/celerybeat-schedule
-lunchtime_organiser/celerybeat.pid
+lunchman/lunchman/settings/*.py
 
 
 ###     local DBs & statics
 ####################################################################################################
 
-lunchtime_organiser/test.sqlite3
-lunchtime_organiser/collected_static
-lunchtime_organiser/components
+lunchman/test.sqlite3
+lunchman/collected_static

@@ -2,7 +2,7 @@
 from unipath import Path
 
 
-###     Django settings for lunchtime_organiser
+###     Django settings for lunchman
 ####################################################################################################
 
 PROJECT_DIR = Path(__file__).ancestor(3)
@@ -37,7 +37,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'lunchtime_organiser.urls'
+ROOT_URLCONF = 'lunchman.urls'
 
 TEMPLATES = [
     {
@@ -55,7 +55,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'lunchtime_organiser.wsgi.application'
+WSGI_APPLICATION = 'lunchman.wsgi.application'
 
 DATABASES = {
     'default': {

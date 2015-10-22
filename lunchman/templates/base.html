@@ -18,17 +18,21 @@
             <div class="container">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="{% url 'home' %}">
-                        <i class="fa fa-cutlery">
-                            &emsp;
-                            Inicio
-                        </i>
+                        <i class="fa fa-cutlery"></i>
+                        &nbsp;
+                        lunchman
                     </a>
                 </div>
 
                 <div class="navbar-right">
                     {% if user.is_authenticated %}
-                        <div id="user-div" class="logged_user">
-                            Registrado como <em class='logged_username'>{{ user.first_name }} {{ user.last_name }}</em>
+                        <div id="logged-user" class="user-div">
+                            {{ user.first_name }} {{ user.last_name }}
+                            <sup>
+                                <span class="badge" title="{{ remaining_meals }} comidas restantes">
+                                    {{ remaining_meals }}
+                                </span>
+                            </sup>
                         </div>
 
                         <div id="dropdown-div" class="dropdown clearfix">
@@ -47,10 +51,6 @@
                                 <li role="separator" class="divider"></li>
                                 -->
 
-                                <li class="dropdown-header">
-                                    {{ remaining_meals }} comidas restantes
-                                </li>
-
                                 <li>
                                     <a href="" data-toggle="modal" data-target="#ticket-modal">
                                         <i class="fa fa-ticket">
@@ -61,6 +61,19 @@
                                 </li>
 
                                 <li role="separator" class="divider"></li>
+
+                                <!--
+                                <li>
+                                    <a href="">
+                                        <i class="fa fa-cog">
+                                            &nbsp;
+                                            Configuración
+                                        </i>
+                                    </a>
+                                </li>
+
+                                <li role="separator" class="divider"></li>
+                                -->
 
                                 <li>
                                     <a href="{% url 'logout_view' %}">

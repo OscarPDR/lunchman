@@ -4,19 +4,15 @@ body {
     padding-bottom: 20px;
 }
 
-#user-div, #dropdown-div {
+.user-div, #dropdown-div {
     display: inline-block;
 }
 
-.logged_user {
-      height: 50px;
-      padding: 15px 15px;
-      font-size: 18px;
-      line-height: 20px;
-      color: #0084ff;
-}
-
-.logged_username {
+#logged-user {
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
     color: #4da9ff;
     font-weight: bolder;
 }

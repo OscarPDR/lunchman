@@ -4,11 +4,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from website.utils import fix_meal_name
+
 
 TIME_CHOICES = (
     ('ordinary', 'Subo a las 13h'),
     ('delayed', 'Subo más tarde, esperad'),
     ('non-attending', 'No subo'),
+)
+
+BEHAVIOUR_CHOICES = (
+    ('daily', 'Lo especifico cada día'),
+    ('default_no', 'Por defecto NO subo a diario'),
+    ('default_yes', 'Por defecto SI subo a diario'),
 )
 
 
@@ -82,10 +90,7 @@ class FirstCourse(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.meal = self.meal.replace('c/', 'con ')
-
-        if ' /' in self.meal:
-            self.meal = self.meal[:self.meal.rfind(' /')]
+        self.meal = fix_meal_name(self.meal)
 
         super(FirstCourse, self).save(*args, **kwargs)
 
@@ -103,10 +108,7 @@ class SecondCourse(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.meal = self.meal.replace('c/', 'con ')
-
-        if ' /' in self.meal:
-            self.meal = self.meal[:self.meal.rfind(' /')]
+        self.meal = fix_meal_name(self.meal)
 
         super(SecondCourse, self).save(*args, **kwargs)
 
@@ -124,9 +126,20 @@ class Dessert(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.meal = self.meal.replace('c/', 'con ')
-
-        if ' /' in self.meal:
-            self.meal = self.meal[:self.meal.rfind(' /')]
+        self.meal = fix_meal_name(self.meal)
 
         super(Dessert, self).save(*args, **kwargs)
+
+
+###     UserSettings
+###################################################################################################
+
+class UserSettings(models.Model):
+
+    user = models.ForeignKey(User)
+
+    default_behaviour = models.CharField(
+        max_length=15,
+        default='daily',
+        choices=BEHAVIOUR_CHOICES,
+    )

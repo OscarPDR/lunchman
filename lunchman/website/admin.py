@@ -66,9 +66,22 @@ class AttendedMealAdmin(admin.ModelAdmin):
     )
 
 
+###     UserSettingsAdmin
+####################################################################################################
+
+class UserSettingsAdmin(admin.ModelAdmin):
+    model = UserSettings
+
+    list_display = (
+        'user',
+        'default_behaviour',
+    )
+
+
 ###     Register classes
 ####################################################################################################
 
 admin.site.register(MealTicket, MealTicketAdmin)
 admin.site.register(AttendedMeal, AttendedMealAdmin)
 admin.site.register(Menu, MenuAdmin)
+admin.site.register(UserSettings, UserSettingsAdmin)

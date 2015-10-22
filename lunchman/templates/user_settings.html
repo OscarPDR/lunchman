@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block main_content %}
+
+    <div class="alert alert-info centered" role="alert">
+        En esta sección puedes actualizar tus datos y preferencias por defecto. Si deseas realizar cualquier otra acción, contacta con <strong>Oscar Peña</strong>.
+    </div>
+
+    <br>
+
+    <form class="form-horizontal" method="post" action="{% url 'user_settings' %}">
+    {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 col-md-offset-1">
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="id_username">
+                        Usuario
+                    </label>
+                    <div class="col-md-8">
+                        {{ form.username }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="id_first_name">
+                        Nombre
+                    </label>
+                    <div class="col-md-8">
+                        {{ form.first_name }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="id_last_name">
+                        Apellido
+                    </label>
+                    <div class="col-md-8">
+                        {{ form.last_name }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-4" for="id_email">
+                        Email
+                    </label>
+                    <div class="col-md-8">
+                        {{ form.email }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-md-offset-1">
+                <span id="def_behaviour_title">Comportamiento predeterminado</span>
+                <div class="radio">
+                    {{ form.default_behaviour }}
+                </div>
+
+                <br>
+
+                <div class="centered">
+                    <button type="submit" class="btn btn-primary btn-sm" value="submit">Guardar</button>
+                    <a href="{% url 'home' %}" class="btn btn-danger btn-sm">Volver</a>
+                    <input type="hidden" name="next" value="" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+    <script>
+        $('#id_username').attr("placeholder", "{{ user.username }}");
+        $('#id_first_name').attr("placeholder", "{{ user.first_name }}");
+        $('#id_last_name').attr("placeholder", "{{ user.last_name }}");
+        $('#id_email').attr("placeholder", "{{ user.email }}");
+
+        {% if default_behaviour == 'daily' %}
+            $("#id_default_behaviour_0").prop("checked", true);
+        {% elif default_behaviour == 'default_no' %}
+            $("#id_default_behaviour_1").prop("checked", true);
+        {% elif default_behaviour == 'default_yes' %}
+            $("#id_default_behaviour_2").prop("checked", true);
+        {% endif %}
+    </script>
+
+{% endblock %}

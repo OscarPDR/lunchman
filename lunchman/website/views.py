@@ -2,10 +2,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm
+from .forms import LoginForm, UserSettingsForm
 from .models import *
 
 import datetime
@@ -148,3 +149,50 @@ def new_meal_ticket(request):
     ).save()
 
     return redirect('home')
+
+
+###     user_settings()
+####################################################################################################
+
+@login_required
+def user_settings(request):
+
+    user = request.user
+    user_settings, created = UserSettings.objects.get_or_create(user=user)
+    remaining_meals = MealTicket.objects.filter(owner=user.id).aggregate(total=Sum('remaining_meals'))
+
+    if request.method == "POST":
+        form = UserSettingsForm(data=request.POST)
+
+        if form.is_valid():
+
+            if request.POST['username'] != u'':
+                user.username = request.POST['username']
+
+            if request.POST['first_name'] != u'':
+                user.first_name = request.POST['first_name']
+
+            if request.POST['last_name'] != u'':
+                user.last_name = request.POST['last_name']
+
+            if request.POST['email'] != u'':
+                user.email = request.POST['email']
+
+            user.save()
+
+            user_settings.default_behaviour = request.POST['default_behaviour']
+            user_settings.save()
+
+            return redirect(reverse('user_settings'))
+
+    else:
+        form = UserSettingsForm()
+
+    return_dict = {
+        'default_behaviour': user_settings.default_behaviour,
+        'form': form,
+        'remaining_meals': remaining_meals['total'],
+        'user': user,
+    }
+
+    return render(request, 'user_settings.html', return_dict)

@@ -2,14 +2,18 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 
+import debug_toolbar
+
 
 urlpatterns = [
+    url(r'^__debug__/', include(debug_toolbar.urls)),
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'website.views.home', name='home'),
 
     # url(r'^$', 'django.contrib.auth.views.login', {'template_name': 'index.html', 'authentication_form': LoginForm}, name='home'),
     url(r'^logout/$', 'website.views.logout_view', name='logout_view'),
+    url(r'^settings/$', 'website.views.user_settings', name='user_settings'),
 
     url(r'^ordinary_attendance/$', 'website.views.ordinary_attendance', name='ordinary_attendance'),
     url(r'^delay_attendance/$', 'website.views.delay_attendance', name='delay_attendance'),

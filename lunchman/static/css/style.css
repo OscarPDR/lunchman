@@ -70,3 +70,12 @@ body {
 #grey-circle {
     color: darkGrey;
 }
+
+#def_behaviour_title {
+    color: #333;
+    font-weight: bold;
+}
+
+.radio ul {
+    list-style: none;
+}

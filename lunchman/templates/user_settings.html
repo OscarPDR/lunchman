@@ -52,6 +52,8 @@
             </div>
 
             <div class="col-md-3 col-md-offset-1">
+                <br>
+
                 <span id="def_behaviour_title">Comportamiento predeterminado</span>
                 <div class="radio">
                     {{ form.default_behaviour }}
@@ -84,8 +86,6 @@
             $("#id_default_behaviour_0").prop("checked", true);
         {% elif default_behaviour == 'default_no' %}
             $("#id_default_behaviour_1").prop("checked", true);
-        {% elif default_behaviour == 'default_yes' %}
-            $("#id_default_behaviour_2").prop("checked", true);
         {% endif %}
     </script>
 

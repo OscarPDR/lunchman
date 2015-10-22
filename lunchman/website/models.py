@@ -16,7 +16,6 @@ TIME_CHOICES = (
 BEHAVIOUR_CHOICES = (
     ('daily', 'Lo especifico cada día'),
     ('default_no', 'Por defecto NO subo a diario'),
-    ('default_yes', 'Por defecto SI subo a diario'),
 )
 
 

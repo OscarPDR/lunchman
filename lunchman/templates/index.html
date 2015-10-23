@@ -35,15 +35,15 @@
 
                                 {% if ordinary_attendee.person == user and before_lunchtime %}
                                     <div class="pull-right">
-                                        <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
+                                        <button class="btn btn-warning btn-xs" onclick="updateAttendance('delayed');">
                                             <i class="fa fa-clock-o"></i>
-                                        </a>
+                                        </button>
 
                                         &nbsp;
 
-                                        <a class="btn btn-danger btn-xs" href="{% url 'cancel_attendance' %}">
+                                        <button class="btn btn-danger btn-xs" onclick="updateAttendance('non-attending');">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 {% endif %}
                             </td>
@@ -57,15 +57,15 @@
 
                                 {% if delayed_attendee.person == user and before_lunchtime %}
                                     <div class="pull-right">
-                                        <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
+                                        <button class="btn btn-success btn-xs" onclick="updateAttendance('ordinary');">
                                             <i class="fa fa-thumbs-up"></i>
-                                        </a>
+                                        </button>
 
                                         &nbsp;
 
-                                        <a class="btn btn-danger btn-xs" href="{% url 'cancel_attendance' %}">
+                                        <button class="btn btn-danger btn-xs" onclick="updateAttendance('non-attending');">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 {% endif %}
                             </td>
@@ -79,15 +79,15 @@
 
                                 {% if non_attendee.person == user and before_lunchtime %}
                                     <div class="pull-right">
-                                        <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
+                                        <button class="btn btn-success btn-xs" onclick="updateAttendance('ordinary');">
                                             <i class="fa fa-thumbs-up"></i>
-                                        </a>
+                                        </button>
 
                                         &nbsp;
 
-                                        <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
+                                        <button class="btn btn-warning btn-xs" onclick="updateAttendance('delayed');">
                                             <i class="fa fa-clock-o"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 {% endif %}
                             </td>
@@ -101,21 +101,21 @@
 
                                 {% if non_confirmed_attendee == user and before_lunchtime %}
                                     <div class="pull-right">
-                                        <a class="btn btn-success btn-xs" href="{% url 'ordinary_attendance' %}">
+                                        <button class="btn btn-success btn-xs" onclick="updateAttendance('ordinary');">
                                             <i class="fa fa-thumbs-up"></i>
-                                        </a>
+                                        </button>
 
                                         &nbsp;
 
-                                        <a class="btn btn-warning btn-xs" href="{% url 'delay_attendance' %}">
+                                        <button class="btn btn-warning btn-xs" onclick="updateAttendance('delayed');">
                                             <i class="fa fa-clock-o"></i>
-                                        </a>
+                                        </button>
 
                                         &nbsp;
 
-                                        <a class="btn btn-danger btn-xs" href="{% url 'cancel_attendance' %}">
+                                        <button class="btn btn-danger btn-xs" onclick="updateAttendance('non-attending');">
                                             <i class="fa fa-times"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 {% endif %}
                             </td>
@@ -135,5 +135,56 @@
         </div>
 
     </div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+    <script src="{% static 'js/handlebars.runtime-v4.0.2.js' %}"></script>
+    <script src="{% static 'js/templates/templates.js' %}"></script>
+    <script src="{% static 'js/jquery.ajax.min.js' %}"></script>
+
+    <script>
+        function updateAttendance(action) {
+            ajaxGet("{% url 'update_attendance_ajax' %}", function(content){
+
+                if (content['remaining_meals'] == 1 && action != 'non-attending') {
+
+                    var last_meal_modal_template = Handlebars.templates['last_meal_modal'];
+                    $('body').append(last_meal_modal_template(content));
+
+                    $('#last-meal-modal').modal('show');
+
+                    $("#ok-and-ticket").click(function() {
+                        ajaxGet("{% url 'new_meal_ticket' %}", function() {
+                            window.location.replace("{% url 'update_attendance_def' %}" + action);
+                        });
+                    });
+
+                    $("#ok").click(function() {
+                        window.location.replace("{% url 'update_attendance_def' %}" + action);
+                    });
+                }
+                else if (content['remaining_meals'] == 0 && action != 'non-attending') {
+
+                    var no_meals_modal_template = Handlebars.templates['no_meals_modal'];
+                    $('body').append(no_meals_modal_template(content));
+
+                    $('#no-meals-modal').modal('show');
+
+                    $("#ok-and-ticket").click(function() {
+                        ajaxGet("{% url 'new_meal_ticket' %}", function() {
+                            window.location.replace("{% url 'update_attendance_def' %}" + action);
+                        });
+                    });
+                }
+                else {
+                    window.location.replace("{% url 'update_attendance_def' %}" + action);
+                };
+            });
+        };
+    </script>
 
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.shortcuts import render, redirect
+from django_ajax.decorators import ajax
 
 from .forms import LoginForm, UserSettingsForm
 from .models import *
@@ -89,66 +90,53 @@ def logout_view(request):
     return redirect('home')
 
 
-###     ordinary_attendance()
+###     update_attendance(action)
 ####################################################################################################
 
 @login_required
-def ordinary_attendance(request):
-    attended_meal, created = AttendedMeal.objects.get_or_create(
+def update_attendance(request, action):
+    meal, created = AttendedMeal.objects.get_or_create(
         person=request.user,
         date=datetime.date.today(),
     )
 
-    attended_meal.preferred_time = u'ordinary'
-    attended_meal.save()
+    meal.preferred_time = action
+    meal.save()
 
     return redirect('home')
 
 
-###     delay_attendance()
+###     update_attendance_ajax()
 ####################################################################################################
 
+@ajax
 @login_required
-def delay_attendance(request):
-    delayed_meal, created = AttendedMeal.objects.get_or_create(
-        person=request.user,
-        date=datetime.date.today(),
-    )
+def update_attendance_ajax(request):
 
-    delayed_meal.preferred_time = u'delayed'
-    delayed_meal.save()
+    remaining_meals = 7     # Just needs to be > 1
 
-    return redirect('home')
+    if MealTicket.objects.filter(owner=request.user.id).count() == 0:
+        remaining_meals = 0
 
+    else:
+        remaining_meals_aggregate = MealTicket.objects.filter(owner=request.user.id).aggregate(total=Sum('remaining_meals'))
+        remaining_meals = remaining_meals_aggregate['total']
 
-###     cancel_attendance()
-####################################################################################################
-
-@login_required
-def cancel_attendance(request):
-    cancelled_meal, created = AttendedMeal.objects.get_or_create(
-        person=request.user,
-        date=datetime.date.today(),
-    )
-
-    cancelled_meal.preferred_time = u'non-attending'
-    cancelled_meal.save()
-
-    return redirect('home')
+    return {'remaining_meals': remaining_meals}
 
 
 ###     new_meal_ticket()
 ####################################################################################################
 
+@ajax
 @login_required
 def new_meal_ticket(request):
-    MealTicket(
+    meal_ticket, created = MealTicket.objects.get_or_create(
         owner=request.user,
         purchased=datetime.date.today(),
+    )
 
-    ).save()
-
-    return redirect('home')
+    return
 
 
 ###     user_settings()

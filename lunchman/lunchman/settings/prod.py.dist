@@ -16,3 +16,53 @@ DATABASES = {
 EMAIL_HOST = ''
 EMAIL_PORT = 0
 SENDER_ADDRESS = ''
+
+ADMINS = (
+#    ('name', 'email'),
+)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "datefmt": "%Y/%m/%d %H:%M:%S"
+        },
+        "simple": {
+            "format": "%(levelname)s %(message)s"
+        },
+        "compact": {
+            "format": "[%(asctime)s] [%(levelname)s]\t%(message)s",
+            "datefmt": "%Y/%m/%d %H:%M:%S"
+        }
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "INFO",
+            "formatter": "verbose"
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "INFO",
+            "formatter": "verbose",
+#            "filename": "logs/info.log",
+            "maxBytes": 1024 * 1024,    # 1 MB
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "class": "django.utils.log.AdminEmailHandler",
+            "formatter": "verbose",
+        },
+    },
+
+    "loggers": {
+        "": {
+            "handlers": ["console", "file", "mail_admins"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}

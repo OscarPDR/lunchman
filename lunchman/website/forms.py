@@ -70,6 +70,16 @@ class UserSettingsForm(forms.Form):
         required=False,
     )
 
+    remaining_meals = forms.IntegerField(
+        max_value=20,
+        min_value=0,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'text',
+        }),
+        required=False,
+    )
+
     default_behaviour = forms.ChoiceField(
         # max_length=15,
         widget=forms.RadioSelect(attrs={

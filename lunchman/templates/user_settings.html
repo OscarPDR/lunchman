@@ -52,11 +52,20 @@
             </div>
 
             <div class="col-md-3 col-md-offset-1">
-                <br>
-
                 <span id="def_behaviour_title">Comportamiento predeterminado</span>
                 <div class="radio">
                     {{ form.default_behaviour }}
+                </div>
+
+                <br>
+
+                <div class="form-group">
+                    <label class="control-label col-md-8" for="id_remaining_meals">
+                        Comidas restantes
+                    </label>
+                    <div class="col-md-4">
+                        {{ form.remaining_meals }}
+                    </div>
                 </div>
 
                 <br>

@@ -147,7 +147,8 @@ def user_settings(request):
 
     user = request.user
     user_settings, created = UserSettings.objects.get_or_create(user=user)
-    remaining_meals = MealTicket.objects.filter(owner=user.id).aggregate(total=Sum('remaining_meals'))
+    remaining_meals_obj = MealTicket.objects.filter(owner=user.id).aggregate(total=Sum('remaining_meals'))
+    remaining_meals = remaining_meals_obj['total']
 
     if request.method == "POST":
         form = UserSettingsForm(data=request.POST)
@@ -171,15 +172,23 @@ def user_settings(request):
             user_settings.default_behaviour = request.POST['default_behaviour']
             user_settings.save()
 
+            post_remaining_meals = request.POST['remaining_meals']
+
+            if post_remaining_meals != remaining_meals:
+
+                less_meal_ticket = MealTicket.objects.filter(owner=user.id, remaining_meals__gt=0).order_by('remaining_meals').first()
+                less_meal_ticket.remaining_meals = post_remaining_meals
+                less_meal_ticket.save()
+
             return redirect(reverse('user_settings'))
 
     else:
-        form = UserSettingsForm()
+        form = UserSettingsForm(initial={'remaining_meals': remaining_meals})
 
     return_dict = {
         'default_behaviour': user_settings.default_behaviour,
         'form': form,
-        'remaining_meals': remaining_meals['total'],
+        'remaining_meals': remaining_meals,
         'user': user,
     }
 

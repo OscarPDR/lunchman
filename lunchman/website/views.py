@@ -51,7 +51,7 @@ def home(request):
     non_attendance = AttendedMeal.objects.filter(date=today, preferred_time=u'non-attending').order_by('person__first_name')
 
     confirmed_person_ids = AttendedMeal.objects.filter(date=today).values_list('person__id', flat=True)
-    non_confirmed = User.objects.all().exclude(id__in=confirmed_person_ids)
+    non_confirmed = User.objects.all().exclude(id__in=confirmed_person_ids).exclude(username='admin')
 
     remaining_meals = MealTicket.objects.filter(owner=user.id).aggregate(total=Sum('remaining_meals'))
 

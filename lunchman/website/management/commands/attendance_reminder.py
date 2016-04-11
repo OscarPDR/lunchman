@@ -23,7 +23,7 @@ class Command(BaseCommand):
         today = datetime.date.today()
 
         confirmed_person_ids = AttendedMeal.objects.filter(date=today).values_list('person__id', flat=True)
-        non_confirmed_attendance = User.objects.all().exclude(id__in=confirmed_person_ids)
+        non_confirmed_attendance = User.objects.all().exclude(id__in=confirmed_person_ids).exclude(username='admin')
 
         for person in non_confirmed_attendance:
 
